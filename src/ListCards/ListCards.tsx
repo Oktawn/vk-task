@@ -1,15 +1,17 @@
 import { observer } from "mobx-react";
 import catStore from "../stores/catStore";
-import { Card } from "../Card/Card";
+import { lazy, memo } from "react";
+const MemoLazyCard = memo(lazy(() => import("../Card/Card")));
 
-export const ListCards = observer(() => {
-    return (
-        <div className="list-card">
-            {
-                catStore.cats.map(cat =>
-                    <div key={cat.id}>{<Card cat={cat} />}</div>
-                )
-            }
-        </div>)
+const ListCards = observer(() => {
+  return (
+    <div className="list-card">
+      {
+        catStore.cats.map(cat =>
+          <div key={cat.id}>{<MemoLazyCard cat={cat} />}</div>
+        )
+      }
+    </div>)
 })
 
+export default ListCards;

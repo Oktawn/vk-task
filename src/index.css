@@ -26,6 +26,7 @@ html {
 }
 
 
+
 body {
   margin: 0;
   display: flex;
@@ -44,7 +45,19 @@ body {
   border: 2px solid #ffffff;
   border-radius: 12px;
   margin: 5px;
+  max-width: 310px;
 }
+
+.card span {
+  margin: 1px 3px;
+}
+
+.span-name {
+  max-width: 150px;
+  display: inline-flex;
+  overflow: hidden;
+}
+
 
 .card:hover {
   border: 2px solid #747bff;

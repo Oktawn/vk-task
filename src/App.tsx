@@ -1,13 +1,12 @@
-import { Suspense } from 'react'
+import { lazy, Suspense } from 'react'
 import { ButtonLoad } from './ButtonLoad/ButtonLoad'
-import { ListCards } from './ListCards/ListCards'
+const LazyListCards = lazy(() => import("./ListCards/ListCards"))
 function App() {
 
   return (
-
     <>
       <Suspense fallback={<div>loading</div>}>
-        <ListCards />
+        <LazyListCards />
         <ButtonLoad />
       </Suspense>
     </>

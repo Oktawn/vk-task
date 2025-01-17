@@ -3,42 +3,62 @@ import catStore, { Cat } from "../stores/catStore"
 import { Button, Input } from "antd"
 import { fakerEN as faker } from "@faker-js/faker"
 import { EditOutlined } from "@ant-design/icons"
-import { useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 
-export const Card = observer(({ cat }: { cat: Cat }) => {
-
-    const [name, setName] = useState(faker.animal.petName())
+const Card = observer(({ cat }: { cat: Cat }) => {
+    const initName = useMemo(() => faker.animal.petName(), []);
+    const [name, setName] = useState(initName);
     const [isEdit, setIsEdit] = useState(false);
 
-    const handleEdit = () => {
+    const handleEdit = useCallback(() => {
         setIsEdit(true);
-    }
-    const changeName = (e: any) => {
-        setName(e.target.value)
-    }
-    const handleBlur = () => {
-        setIsEdit(false);
-    };
+    }, []);
 
+    const changeName = useCallback((e: any) => {
+        setName(e.target.value);
+    }, []);
+
+    const handleKeyDown = useCallback((e: any) => {
+        if (e.key === 'Enter') {
+            setIsEdit(false);
+        }
+        if (name.trim() === '') {
+            setName(initName);
+        }
+    }, [name]);
+
+
+    const handleBlur = useCallback(() => {
+        if (name.trim() === '') {
+            setName(initName);
+        }
+        setIsEdit(false);
+    }, [name, initName]);
 
     return (
-        <div className="card" >
-            <img className="img-card" src={cat.url} alt="" />
+        <div className="card" id={cat.id} >
+            <img className="img-card" src={cat.url} alt={"cat " + name} />
             <div>
-                <span >name: </span>
+                <span >name:</span>
                 {isEdit ?
                     (<Input
                         value={name}
-                        autoFocus={true}
+                        autoFocus
                         onChange={changeName}
-                        onBlur={handleBlur} />)
+                        onKeyDown={handleKeyDown}
+                        onBlur={handleBlur}
+                    />)
                     :
-                    (<span>{name} </span>)}
-                <span> {<EditOutlined onClick={() => { handleEdit() }} />}</span>
+                    (<span>
+                        <span className="span-name">{name}</span>
+                        <span> {<EditOutlined onClick={() => { handleEdit() }} />}</span>
+                    </span>)
+                }
             </div>
             <div>
                 <Button onClick={() => catStore.deleteCat(cat)}>Delete</Button>
             </div>
-        </div>
+        </div >
     )
 })
+export default Card;
