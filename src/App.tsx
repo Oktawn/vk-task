@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react'
+import React, { lazy, Suspense } from 'react'
 import { ButtonLoad } from './ButtonLoad/ButtonLoad'
 const LazyListCards = lazy(() => import("./ListCards/ListCards"))
 function App() {

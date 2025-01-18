@@ -1,11 +1,12 @@
 import ky from "ky";
 import { makeAutoObservable, runInAction } from "mobx";
+import { fakerEN as faker } from "@faker-js/faker"
+
 
 export type Cat = {
     id: string,
     url: string,
-    width: number,
-    height: number
+    name: string
 }
 
 class CatStore {
@@ -25,11 +26,10 @@ class CatStore {
             const data = await this.ky("?limit=10").json<Cat[]>();
             runInAction(() => {
                 data.map(el =>
-                    this.cats.push(el)
+                    this.cats.push({ ...el, name: faker.animal.petName() })
                 )
                 this.isLoading = false;
             })
-
             this.page++;
         } catch (error) {
             console.error("Failed to load cats", error);
@@ -43,7 +43,7 @@ class CatStore {
             const data = await this.ky(`?limit=10&page=${this.page}`).json<Cat[]>();
             runInAction(() => {
                 data.map(el => {
-                    this.cats.push(el);
+                    this.cats.push({ ...el, name: faker.animal.petName() });
                 })
                 this.isLoading = false;
 

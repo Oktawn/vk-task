@@ -1,18 +1,17 @@
 import { observer } from "mobx-react"
 import catStore, { Cat } from "../stores/catStore"
 import { Button, Input } from "antd"
-import { fakerEN as faker } from "@faker-js/faker"
 import { EditOutlined } from "@ant-design/icons"
-import { useCallback, useMemo, useState } from "react"
+import React, { useCallback, useMemo, useState } from "react"
 
 const Card = observer(({ cat }: { cat: Cat }) => {
-    const initName = useMemo(() => faker.animal.petName(), []);
+    const initName = useMemo(() => cat.name, []);
     const [name, setName] = useState(initName);
     const [isEdit, setIsEdit] = useState(false);
 
-    const handleEdit = useCallback(() => {
+    const handleEdit = () => {
         setIsEdit(true);
-    }, []);
+    };
 
     const changeName = useCallback((e: any) => {
         setName(e.target.value);
@@ -28,12 +27,12 @@ const Card = observer(({ cat }: { cat: Cat }) => {
     }, [name]);
 
 
-    const handleBlur = useCallback(() => {
+    const handleBlur = () => {
         if (name.trim() === '') {
             setName(initName);
         }
         setIsEdit(false);
-    }, [name, initName]);
+    };
 
     return (
         <div className="card" id={cat.id} >
@@ -42,6 +41,7 @@ const Card = observer(({ cat }: { cat: Cat }) => {
                 <span >name:</span>
                 {isEdit ?
                     (<Input
+                        data-testid="input"
                         value={name}
                         autoFocus
                         onChange={changeName}
@@ -51,7 +51,7 @@ const Card = observer(({ cat }: { cat: Cat }) => {
                     :
                     (<span>
                         <span className="span-name">{name}</span>
-                        <span> {<EditOutlined onClick={() => { handleEdit() }} />}</span>
+                        <span> {<EditOutlined data-testid="EditOutlined" onClick={() => { handleEdit() }} />}</span>
                     </span>)
                 }
             </div>
