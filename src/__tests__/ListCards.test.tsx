@@ -1,3 +1,4 @@
+// @ts-ignore
 import React from 'react';
 import '@testing-library/jest-dom';
 import { render, screen, act, cleanup } from '@testing-library/react';

@@ -1,50 +1,35 @@
-# React + TypeScript + Vite
+Тестовое задание на Fronted developer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Необходимо получить с сервера и отобразить список элементов. Список должен поддерживать бесконечный плавный скролл, постепенную подгрузку элементов, локальное удаление и редактирование.
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Expanding the ESLint configuration
+Стек:
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```
+TS
+React + MobX
+Vite
+Jest + RTL
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+Взял [Сat Api](https://developers.thecatapi.com/view-account/ylX4blBYT9FaoVd6OhvR?report=bOoHBz-8t)
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+Пример получения первой страницы
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
 ```
+curl "https://api.thecatapi.com/v1/images/search?limit=10&page=0"
+```
+
+Отображение Первоначальной страницы
+
+<img alt="start Page" src="./img/startPage.png" wight="512px
+" height="512px">
+
+Изменение имени
+
+<img alt="start Page" src="./img/changeName.png" >
+
+Отображение нового имени и удаление второй карточки
+
+<img alt="start Page" src="./img/deleteCat.png" >

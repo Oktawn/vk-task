@@ -1,13 +1,15 @@
+// @ts-ignore
 import React, { lazy, Suspense } from 'react'
-import { ButtonLoad } from './ButtonLoad/ButtonLoad'
+import loading from "./assets/loading.gif";
 const LazyListCards = lazy(() => import("./ListCards/ListCards"))
+const LazyButtonLoad = lazy(() => import("./ButtonLoad/ButtonLoad"));
 function App() {
 
   return (
     <>
-      <Suspense fallback={<div>loading</div>}>
+      <Suspense fallback={<img src={loading}></img>}>
         <LazyListCards />
-        <ButtonLoad />
+        <LazyButtonLoad />
       </Suspense>
     </>
   )

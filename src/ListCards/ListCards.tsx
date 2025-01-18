@@ -1,18 +1,16 @@
 import { observer } from "mobx-react";
 import catStore from "../stores/catStore";
-import React, { lazy, memo, Suspense } from "react";
-const MemoLazyCard = memo(lazy(() => import("../Card/Card")));
+import React, { lazy } from "react";
+const MemoLazyCard = (lazy(() => import("../Card/Card")));
 
-const ListCards = observer(() => {
+const ListCards: React.FC = observer(() => {
   return (
     <div className="list-card">
-      <Suspense fallback={null}>
-        {
-          catStore.cats.map(cat =>
-            <div key={cat.id}>{<MemoLazyCard cat={cat} />}</div>
-          )
-        }
-      </Suspense>
+      {
+        catStore.cats.map(cat =>
+          <div key={cat.id}>{<MemoLazyCard cat={cat} />}</div>
+        )
+      }
     </div>)
 })
 

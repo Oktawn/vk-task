@@ -56,9 +56,9 @@ class CatStore {
         }
     }
 
-    updateCat(id: string, updateData: any) {
+    updateCat(id: string, newName: any) {
         runInAction(() => {
-            this.cats = this.cats.map(cat => cat.id === id ? { ...cat, ...updateData } : cat)
+            this.cats = this.cats.map(cat => cat.id === id ? { ...cat, name: newName } : cat)
         })
     }
 
