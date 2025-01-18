@@ -1,42 +1,41 @@
 import React from 'react';
-import { render, screen, waitFor, act } from '@testing-library/react';
-import { observer } from 'mobx-react';
-import catStore from '../stores/catStore';
+import '@testing-library/jest-dom';
+import { render, screen, act, cleanup } from '@testing-library/react';
 import ListCards from '../ListCards/ListCards';
+import { Cat } from '../stores/catStore';
+
+afterEach(cleanup);
 
 jest.mock("../stores/catStore", () => ({
-    cats: [],
+    __esModule: true,
+    default: {
+        cats: [
+            { id: "1", name: "Fluffy", url: "https://example.com/cat1.jpg" },
+            { id: "2", name: "Whiskers", url: "https://example.com/cat2.jpg" },
+        ]
+    }
 }));
 
-// Mocking the imported Card component
 jest.mock("../Card/Card", () => ({
-    default: ({ cat }: { cat: { id: string; name: string; url: string } }) => (
+    __esModule: true,
+    default: ({ cat }: { cat: Cat }) => (
         <div data-testid="card">
             <span>{cat.name}</span>
         </div>
-    ),
+    )
 }));
 
-describe('renders ListCards component with cats', () => {
+describe('ListCards', () => {
+    it("renders list of cards correctly", async () => {
+        await act(async () => {
+            render(<ListCards />);
+        });
 
-    it("render list", async () => {
-        // Задаем данные для хранилища
-        catStore.cats = [
-            { id: "1", name: "Fluffy", url: "https://example.com/cat1.jpg" },
-            { id: "2", name: "Whiskers", url: "https://example.com/cat2.jpg" },
-        ];
+        const cards = await screen.findAllByTestId("card");
 
-        await act(async () => render(<ListCards />))
+        expect(cards).toHaveLength(2);
 
-        await waitFor(() => {
-            // Проверяем, что количество рендеров соответствует количеству котов
-            const cards = screen.getAllByTestId("card");
-            console.log(cards);
-            expect(cards).toHaveLength(catStore.cats.length);
-
-            // Проверяем отображение имен котов
-            expect(screen.getByText("Nah")).toBeInTheDocument();
-            expect(screen.getByText("Whiskers")).toBeInTheDocument();
-        })
-    })
+        expect(screen.getByText("Fluffy")).toBeInTheDocument();
+        expect(screen.getByText("Whiskers")).toBeInTheDocument();
+    });
 });

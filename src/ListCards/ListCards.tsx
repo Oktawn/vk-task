@@ -6,7 +6,7 @@ const MemoLazyCard = memo(lazy(() => import("../Card/Card")));
 const ListCards = observer(() => {
   return (
     <div className="list-card">
-      <Suspense>
+      <Suspense fallback={null}>
         {
           catStore.cats.map(cat =>
             <div key={cat.id}>{<MemoLazyCard cat={cat} />}</div>
